@@ -29,3 +29,6 @@ crashlytics-build.properties
 venv/
 *.log
 *.pyc
+
+# PyTest Cache
+.pytest_cache
