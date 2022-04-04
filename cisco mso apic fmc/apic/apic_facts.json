@@ -1,0 +1,7 @@
+{
+  "lab-apic": {
+    "tenant": "lab-tenant",
+    "po_path_id": "topology/pod-1/protpaths-101-102/pathep-[FIREPWR01-LAB_PoGrp]",
+    "l3_domain_dn": "uni/l3dom-lab_domain"
+  }
+}

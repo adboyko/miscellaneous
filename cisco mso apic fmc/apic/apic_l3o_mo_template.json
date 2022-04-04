@@ -1,0 +1,178 @@
+{
+  "core-l3o-template": {
+    "l3extOut": {
+      "attributes": {
+        "dn": "${l3o_dn}"
+      },
+      "children": [
+        {
+          "l3extNodeP": {
+            "attributes": {
+              "name": "${code}_NODE_PROFILE"
+            },
+            "children": [
+              {
+                "l3extLIfP": {
+                  "attributes": {
+                    "name": "${code}_INTERFACE_PROFILE"
+                  },
+                  "children": [
+                    {
+                      "ospfIfP": {
+                        "attributes": {
+                          "authKeyId": "1"
+                        },
+                        "children": [
+                          {
+                            "ospfRsIfPol": {
+                              "attributes": {}
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "l3extRsPathL3OutAtt": {
+                        "attributes": {
+                          "addr": "0.0.0.0/0",
+                          "autostate": "disabled",
+                          "encap": "vlan-${encap_vlan}",
+                          "mode": "regular",
+                          "ifInstT": "ext-svi",
+                          "tDn": "${po_path_id}"
+                        },
+                        "children": [
+                          {
+                            "l3extMember": {
+                              "attributes": {
+                                "addr": "${sideAip}",
+                                "side": "A"
+                              },
+                              "children": [
+                                {
+                                  "l3extIp": {
+                                    "attributes": {
+                                      "addr": "${secondary_ip}"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "l3extMember": {
+                              "attributes": {
+                                "addr": "${sideBip}",
+                                "side": "B"
+                              },
+                              "children": [
+                                {
+                                  "l3extIp": {
+                                    "attributes": {
+                                      "addr": "${secondary_ip}"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "l3extRsNodeL3OutAtt": {
+                  "attributes": {
+                    "rtrId": "${rtr1id}",
+                    "rtrIdLoopBack": "no",
+                    "tDn": "topology/pod-1/node-${node1id}"
+                  }
+                }
+              },
+              {
+                "l3extRsNodeL3OutAtt": {
+                  "attributes": {
+                    "rtrId": "${rtr2id}",
+                    "rtrIdLoopBack": "no",
+                    "tDn": "topology/pod-1/node-${node2id}"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "rtctrlProfile": {
+            "attributes": {
+              "name": "ROUTE_CONTROL_PROF_IN"
+            },
+            "children": [
+              {
+                "rtctrlCtxP": {
+                  "attributes": {
+                    "name": "ROUTE_CONTROL_CONTEXT_IN",
+                    "action": "permit"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "rtctrlProfile": {
+            "attributes": {
+              "name": "ROUTE_CONTROL_PROF_OUT"
+            },
+            "children": [
+              {
+                "rtctrlCtxP": {
+                  "attributes": {
+                    "name": "ROUTE_CONTROL_CONTEXT_OUT",
+                    "action": "permit"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ospfExtP": {
+            "attributes": {
+              "areaId": "0.0.0.0",
+              "areaType": "regular",
+              "areaCost": "1",
+              "areaCtrl": "redistribute,summary"
+            }
+          }
+        },
+        {
+          "l3extInstP": {
+            "attributes": {
+              "name": "${epg_name}"
+            },
+            "children": [
+              {
+                "l3extRsInstPToProfile": {
+                  "attributes": {
+                    "tnRtctrlProfileName": "ROUTE_CONTROL_PROF_IN",
+                    "direction": "import"
+                  }
+                }
+              },
+              {
+                "l3extRsInstPToProfile": {
+                  "attributes": {
+                    "tnRtctrlProfileName": "ROUTE_CONTROL_PROF_OUT",
+                    "direction": "export"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

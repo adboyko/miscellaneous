@@ -3,13 +3,11 @@ import urllib3
 import json
 import sys
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from mso_process_input_data import render_input
 
 
 # Disable warnings
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 # Set mapping for the base URI of an MSO instance
 # {ip} should represent the IP of an instance
